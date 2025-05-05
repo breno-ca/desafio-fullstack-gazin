@@ -1,0 +1,51 @@
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: #00000088;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.modal {
+  background: white;
+  padding: 20px 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px #0000001a;
+  text-align: center;
+
+  p {
+    margin-bottom: 20px;
+    font-weight: bold;
+  }
+
+  .actions {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+
+    button {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 4px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s;
+
+      &:first-child {
+        background-color: #4caf50;
+        color: white;
+      }
+
+      &:last-child {
+        background-color: #f44336;
+        color: white;
+      }
+
+      &:hover {
+        opacity: 0.9;
+      }
+    }
+  }
+}

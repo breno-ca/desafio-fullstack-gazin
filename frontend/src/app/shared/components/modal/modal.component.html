@@ -1,0 +1,9 @@
+<div *ngIf="modalService.message" class="modal-backdrop">
+  <div class="modal">
+    <p>{{ modalService.message }}</p>
+    <div class="actions">
+      <button (click)="confirm()">Confirmar</button>
+      <button (click)="cancel()">Cancelar</button>
+    </div>
+  </div>
+</div>
