@@ -1,0 +1,17 @@
+<h1>Níveis</h1>
+
+<app-data-table
+  [data]="niveis"
+  [search]="search"
+  [columns]="columns"
+  [pagination]="pagination"
+  (create)="onCreate()"
+  (edit)="openForm($event)"
+  (delete)="onDelete($event)"
+  (orderChange)="onOrderChange($event)"
+  (pageChange)="onPageChange($event)"
+  (searchChange)="onSearch($event)"
+>
+</app-data-table>
+
+<app-niveis-form *ngIf="showForm" [initialData]="editingNivel" (close)="closeForm($event)" />
