@@ -1,0 +1,92 @@
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: #00000088;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.modal {
+  background: white;
+  padding: 20px 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px #0000001a;
+  text-align: center;
+  max-width: 500px;
+  width: 100%;
+}
+
+.form-body {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  margin-top: 18px;
+  text-align: left;
+
+  label {
+    margin-bottom: 4px;
+    font-weight: 600;
+  }
+
+  input,
+  select {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+  }
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 30px;
+
+  button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+
+    &:first-child {
+      background-color: #4caf50;
+      color: white;
+
+      &:hover:not(:disabled) {
+        opacity: 0.9;
+      }
+
+      &:disabled {
+        background-color: #ccc;
+        color: #666;
+        cursor: not-allowed;
+      }
+    }
+
+    &:last-child {
+      background-color: #f44336;
+      color: white;
+
+      &:hover {
+        opacity: 0.9;
+      }
+    }
+  }
+}
+
+.error {
+  margin-top: 0;
+  text-align: left;
+  color: red;
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+}

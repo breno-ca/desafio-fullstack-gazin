@@ -1,0 +1,32 @@
+<div class="modal-backdrop">
+  <div class="modal">
+    <form (ngSubmit)="onSubmit()" [formGroup]="form" class="form-body">
+      <ng-container *ngFor="let field of fields">
+        <div class="form-field" *ngIf="!field.hidden" [ngClass]="{ 'full-width': field.fullWidth }">
+          <label [for]="field.name">{{ field.label }}</label>
+
+          <select *ngIf="field.type === 'select'" [formControlName]="field.name" [id]="field.name" [disabled]="field.disabled">
+            <option *ngFor="let option of field.options" [value]="option.value">
+              {{ option.label }}
+            </option>
+          </select>
+
+          <input
+            *ngIf="field.type !== 'select'"
+            [type]="field.type || 'text'"
+            [formControlName]="field.name"
+            [id]="field.name"
+            [disabled]="field.disabled"
+          />
+        </div>
+        <div class="error" *ngIf="form.get(field.name)?.invalid && form.get(field.name)?.touched">
+          {{ field.invalidMessage }}
+        </div>
+      </ng-container>
+      <div class="actions">
+        <button type="submit" [disabled]="form.invalid">Salvar</button>
+        <button type="button" (click)="onCancel()">Cancelar</button>
+      </div>
+    </form>
+  </div>
+</div>
