@@ -1,0 +1,389 @@
+definitions:
+  entity.Desenvolvedor:
+    properties:
+      data_nascimento:
+        description: Data de nascimento do desenvolvedor (DD/MM/YYYY)
+        type: string
+      hobby:
+        description: Hobby do desenvolvedor (Max:100)
+        type: string
+      id:
+        description: ID do desenvolvedor (UUID)
+        type: string
+      nivel_id:
+        description: ID do nível (UUID)
+        type: string
+      nome:
+        description: Nome do desenvolvedor (Max:100)
+        type: string
+      sexo:
+        description: Sexo do desenvolvedor (M, F)
+        type: string
+    type: object
+  entity.Nivel:
+    properties:
+      id:
+        description: ID do nível (UUID)
+        type: string
+      nivel:
+        description: Nível do desenvolvedor (Max:100)
+        type: string
+    type: object
+  presenter.Desenvolvedor:
+    properties:
+      data_nascimento:
+        type: string
+      hobby:
+        type: string
+      id:
+        type: string
+      nivel:
+        properties:
+          id:
+            type: string
+          nivel:
+            type: string
+        type: object
+      nome:
+        type: string
+      sexo:
+        type: string
+    type: object
+  presenter.DesenvolvedorPaginatedResponse:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/presenter.Desenvolvedor'
+        type: array
+      meta:
+        $ref: '#/definitions/presenter.Meta'
+    type: object
+  presenter.Meta:
+    properties:
+      current_page:
+        type: integer
+      last_page:
+        type: integer
+      per_page:
+        type: integer
+      total:
+        type: integer
+    type: object
+  presenter.Nivel:
+    properties:
+      id:
+        type: string
+      nivel:
+        type: string
+      qtd_devs:
+        type: string
+    type: object
+  presenter.NivelPaginatedResponse:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/presenter.Nivel'
+        type: array
+      meta:
+        $ref: '#/definitions/presenter.Meta'
+    type: object
+  presenter.NivelSelectOptions:
+    properties:
+      id:
+        type: string
+      nivel:
+        type: string
+    type: object
+  response.ErrorResponse:
+    properties:
+      error:
+        type: string
+      message:
+        type: string
+    type: object
+info:
+  contact: {}
+  description: API desenvolvida para o desafio fullstack Gazin
+  title: API Desafio Fullstack Gazin
+  version: "1.0"
+paths:
+  /desenvolvedores:
+    get:
+      description: Retorna todos os desenvolvedores cadastrados
+      parameters:
+      - description: Número da página
+        in: query
+        name: page
+        type: integer
+      - description: 'Campo para ordenação (ex: nome)'
+        in: query
+        name: order
+        type: string
+      - description: Direção da ordenação (ASC ou DESC)
+        in: query
+        name: mode
+        type: string
+      - description: Texto de busca
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Lista de desenvolvedores
+          schema:
+            $ref: '#/definitions/presenter.DesenvolvedorPaginatedResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Listar desenvolvedores
+      tags:
+      - Desenvolvedores
+    post:
+      consumes:
+      - application/json
+      description: Cria um novo desenvolvedor
+      parameters:
+      - description: Dados do desenvolvedor
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/entity.Desenvolvedor'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/presenter.Desenvolvedor'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Criar desenvolvedor
+      tags:
+      - Desenvolvedores
+  /desenvolvedores/{id}:
+    delete:
+      description: Remove um desenvolvedor pelo ID
+      parameters:
+      - description: ID do desenvolvedor
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: Removido com sucesso
+          schema:
+            type: string
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Remover desenvolvedor
+      tags:
+      - Desenvolvedores
+    put:
+      consumes:
+      - application/json
+      description: Atualiza um desenvolvedor existente
+      parameters:
+      - description: ID do desenvolvedor
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Dados atualizados do desenvolvedor
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/entity.Desenvolvedor'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/presenter.Desenvolvedor'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Atualizar desenvolvedor
+      tags:
+      - Desenvolvedores
+  /niveis:
+    get:
+      description: Retorna todos os níveis cadastrados
+      parameters:
+      - description: Número da página
+        in: query
+        name: page
+        type: integer
+      - description: 'Campo para ordenação (ex: nome)'
+        in: query
+        name: order
+        type: string
+      - description: Direção da ordenação (ASC ou DESC)
+        in: query
+        name: mode
+        type: string
+      - description: Texto de busca
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Lista de níveis
+          schema:
+            $ref: '#/definitions/presenter.NivelPaginatedResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Listar níveis
+      tags:
+      - Níveis
+    post:
+      consumes:
+      - application/json
+      description: Cria um novo nível
+      parameters:
+      - description: Dados do nível
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/entity.Nivel'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/presenter.Nivel'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Criar nível
+      tags:
+      - Níveis
+  /niveis/{id}:
+    delete:
+      description: Remove um nível pelo ID
+      parameters:
+      - description: ID do nível
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: Removido com sucesso
+          schema:
+            type: string
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Remover nível
+      tags:
+      - Níveis
+    put:
+      consumes:
+      - application/json
+      description: Atualiza um nível existente
+      parameters:
+      - description: ID do nível
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Dados atualizados do nível
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/presenter.Nivel'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/presenter.Nivel'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Atualizar nível
+      tags:
+      - Níveis
+  /niveis/select-options:
+    get:
+      description: Retorna opções simplificadas de níveis para uso em selects
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/presenter.NivelSelectOptions'
+            type: array
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Listar opções de níveis
+      tags:
+      - Níveis
+swagger: "2.0"
