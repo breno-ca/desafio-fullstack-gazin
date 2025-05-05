@@ -1,0 +1,51 @@
+<div class="data-table">
+  <div class="table-header">
+    <input #input type="text" [value]="search" (keydown.enter)="searchChange.emit(input.value)" />
+    <button type="button" (click)="searchChange.emit(input.value)">🔍 Pesquisar</button>
+    <button type="button" (click)="create.emit()">Novo</button>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th
+          *ngFor="let column of columns"
+          [hidden]="column.hidden"
+          (click)="order(column.field)"
+          [ngClass]="{
+            orderable: column.field,
+            'ordered-asc': orderField === column.field && orderDirection === 'ASC',
+            'ordered-desc': orderField === column.field && orderDirection === 'DESC',
+          }"
+        >
+          {{ column.label }}
+          <span *ngIf="orderField === column.field">
+            <i *ngIf="orderDirection === 'ASC'" class="order-icon">↑</i>
+            <i *ngIf="orderDirection === 'DESC'" class="order-icon">↓</i>
+          </span>
+        </th>
+        <th class="option">📝</th>
+        <th class="option">🗑️</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let row of data">
+        <td *ngFor="let column of columns" [hidden]="column.hidden">
+          {{ column.field === "data_nascimento" ? (row[column.field] | date: "dd/MM/yyyy") : getFieldValue(row, column.field) }}
+        </td>
+        <td class="option">
+          <button id="edit" (click)="edit.emit(row)">📝</button>
+        </td>
+        <td class="option">
+          <button id="delete" (click)="delete.emit(row)">🗑️</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="pagination">
+    <button (click)="previous()" [disabled]="pagination.current_page <= 1">Anterior</button>
+    <span>Página {{ pagination.current_page }} de {{ pagination.last_page }}</span>
+    <button (click)="next()" [disabled]="pagination.current_page >= pagination.last_page">Próxima</button>
+  </div>
+</div>
