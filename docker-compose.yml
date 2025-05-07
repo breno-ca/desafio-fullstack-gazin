@@ -37,7 +37,7 @@ services:
     ports:
       - 4200:4200
     volumes:
-      - frontend:/var/lib/backend
+      - frontend:/var/lib/frontend
 
 volumes:
   database:
