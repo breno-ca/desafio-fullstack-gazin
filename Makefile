@@ -5,7 +5,6 @@ launch:
 	@echo "Iniciando os serviços do projeto... \n"
 	@make env
 	@docker compose up -d
-	@make migration-up
 
 	@echo "Serviços rodando..."
 	@echo " 🎨 frontend   		http://localhost:4200"
@@ -46,7 +45,7 @@ MYSQL_BASE_COMMAND=mysql -h ${DATABASE_HOST} -P ${MYSQL_PORT} \
 mysql-connection:
 	@$(MYSQL_BASE_COMMAND) database
 
-# Exclui o banco de dados e cria novamente
+# Exclui o banco de dados e roda as migrações
 reset-database:
 	@$(MYSQL_BASE_COMMAND) -e 'DROP DATABASE `database`; CREATE DATABASE `database`;';
 	@make migration-up
@@ -54,6 +53,11 @@ reset-database:
 # Exclui todos os registros de uma determinada tabela
 reset-table:
 	@$(MYSQL_BASE_COMMAND) -e 'DELETE FROM `database`.`$(name)`;';
+
+# Limpa todas as tabelas
+clear-tables:
+	@make reset-table name=desenvolvedores
+	@make reset-table name=niveis
 
 # Executa um script que popula o banco com dados de teste
 seed-testdata:
@@ -86,30 +90,29 @@ test:
 full-test:
 	@echo "Iniciando os serviços do projeto... \n"
 	@docker compose up -d backend --build
-	@docker compose up -d database
 
 	@echo "Resetando o banco de dados... \n"
-	@make reset-database
+	@make clear-tables
 
 	@echo "Testa os casos de erro validando os requisitos de niveis \n"
 	make test name=./backend/tests/niveis/test_error_cases.hurl
-	@make reset-database
+	@make clear-tables
 
 	@echo "Popula o banco com os dados de teste \n"
 	@make seed-testdata name=niveis
 	@echo "Testa os casos de sucesso validando os requisitos de niveis \n"
 	@make test name=./backend/tests/niveis/test_success_cases.hurl
-	@make reset-database
+	@make clear-tables
 
 	@echo "Testa os casos de erro validando os requisitos de desenvolvedores \n"
 	@make test name=./backend/tests/desenvolvedores/test_error_cases.hurl
-	@make reset-database
+	@make clear-tables
 
 	@echo "Popula o banco com os dados de teste \n"
 	@make seed-testdata name=desenvolvedores
 	@echo "Testa os casos de sucesso validando os requisitos de desenvolvedores \n"
 	@make test name=./backend/tests/desenvolvedores/test_success_cases.hurl
-	@make reset-database
+	@make clear-tables
 
 	@docker compose down
 
