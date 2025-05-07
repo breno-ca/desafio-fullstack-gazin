@@ -1,6 +1,6 @@
 # Desafio Fullstack Gazin
 
-Projeto Fullstack com o objetivo de gerenciar **Desenvolvedores** e seus respectivos **Níveis** de atuação em uma empresa. A aplicação foi construída com **Go (Backend)** e **Angular (Frontend)**. O projeto foi desenvolvido com uma abordagem purista focando em simplicidade, organização e reutilização de componentes.
+Projeto fullstack com o objetivo de gerenciar desenvolvedores e seus respectivos níveis de atuação em uma empresa. A aplicação foi construída com **Go (Backend)** e **Angular (Frontend)**. O projeto foi desenvolvido com uma abordagem purista, focando em simplicidade, organização e reutilização de componentes.
 
 ---
 
@@ -19,22 +19,22 @@ Projeto Fullstack com o objetivo de gerenciar **Desenvolvedores** e seus respect
 
 ## Execução
 
-A execução do projeto deve ser feito via docker/docker-compose para evitar problemas ambiente e dependencias.
+A execução do projeto deve ser feito via `Docker/Docker Compose` para evitar problemas de ambiente e dependências.
 
 ### Executando via docker
 
-Certifique-se de que possui instalado: `make`, `golang-migrate`, `docker`, `docker-compose`.
+Certifique-se de que possui instalado: `docker`, `docker-compose`.
 
-Após clonar o repositório e instalar os requisitos execute:
+Após clonar o repositório e instalar os requisitos, execute os comandos na raiz do projeto:
 
 ```bash
-git clone https://github.com/breno-ca/desafio-fullstack-gazin.git
-make launch
+cp .example.env .env
+docker compose up -d
 ```
 
-O comando `make launch` vai criar o arquivo .env com base no .example.env e criar um container para o backend, banco de dados e frontend. Após os containers subirem as migrações serão executadas.
+O arquivo `.example.env` possui os valores padrão para a execução do projeto em ambiente de desenvolvimento.
 
-Os serviços estaram disponíveis em:
+Os serviços estarão disponíveis em:
 
 |                 |                            |
 | :-------------- | :------------------------- |
@@ -65,7 +65,7 @@ A documentação da API está disponível via Swagger e roda junto com o serviç
 
 ## 📁 Migrações
 
-As migrações de banco estão em `internal/database/migrations/mysql/`, organizadas em arquivos `.up.sql` e `.down.sql` sendo gerados e executados com [golang-migrate](https://github.com/golang-migrate/migrate).
+As migrações de banco estão em `./backend/internal/database/migrations/mysql/`, organizadas em arquivos `.up.sql` e `.down.sql`, que são gerados e executados com [golang-migrate](https://github.com/golang-migrate/migrate).
 
 ---
 
@@ -83,7 +83,7 @@ A estrutura do backend segue princípios de **Clean Architecture**, separando re
   - `repository/`: acesso ao banco de dados.
   - `usecase/`: regras de negócio para cada entidade.
   - `presenter/`: transformação de dados para respostas da API.
-- `pkg/`: middlewares, utilitários, e helpers (CORS, logger, JSON, etc).
+- `pkg/`: middlewares, utilitários e helpers (CORS, logger, JSON, etc).
 - `tests/`: testes automatizados com `hurl`, com cenários de sucesso e erro.
 - `main.go`: ponto de entrada da aplicação.
 
@@ -111,17 +111,17 @@ O frontend Angular segue uma arquitetura modular:
 - CRUD de Níveis (com verificação de vínculo com Desenvolvedores)
 - Paginação e ordenação
 - Documentação OpenAPI 3.0
-- Middleware de CORS, JSON, e logger
+- Middleware de CORS, JSON e logger
 
 ### Frontend
 
 - Listagem paginada de desenvolvedores e níveis
 - Formulários em modal com validação
 - Requisições assíncronas com feedback do usuário (toast)
-- Interface limpa, responsiva e sem dependências externas
+- Interface limpa sem dependências externas
 
 ---
 
 ## 📌 Considerações
 
-Este projeto foi desenvolvido com foco na clareza do código, responsabilidade única, e reutilização de componentes tanto no backend quanto no frontend. Evitou-se o uso de frameworks e bibliotecas além do necessário, priorizando a compreensão e o domínio das bibliotecas padrão do Go e do Angular.
+Este projeto foi desenvolvido com foco na clareza do código, responsabilidade única e reutilização de componentes tanto no backend quanto no frontend. Foi evitado o uso de frameworks e bibliotecas além do necessário, priorizando a compreensão e o domínio das bibliotecas padrão do Go e do Angular.
