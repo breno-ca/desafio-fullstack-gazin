@@ -19,7 +19,7 @@ Projeto fullstack com o objetivo de gerenciar desenvolvedores e seus respectivos
 
 ## Execução
 
-A execução do projeto deve ser feito via `Docker/Docker Compose` para evitar problemas de ambiente e dependências.
+A execução do projeto deve ser feito via `Docker/Docker Compose` para evitar problemas de ambiente e dependências (a.k.a "na minha máquina funciona").
 
 ### Executando via docker
 
